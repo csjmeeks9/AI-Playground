@@ -146,7 +146,7 @@ const globalDefaultSettings = {
   inferenceSteps: 4,
   resolution: '512x512',
   batchSize: 1,
-  negativePrompt: 'nsfw',
+  negativePrompt: '',
   safetyCheck: true,
 }
 

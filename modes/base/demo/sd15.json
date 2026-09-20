@@ -196,7 +196,7 @@
       "label": "Negative Prompt",
       "displayed": false,
       "modifiable": true,
-      "defaultValue": "nsfw",
+      "defaultValue": "",
       "settingName": "negativePrompt"
     },
     {
