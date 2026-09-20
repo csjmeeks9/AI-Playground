@@ -33,7 +33,13 @@ class SafetyChecker:
                 "image": ("IMAGE",),
                 "threshold": (
                     "FLOAT",
-                    {"default": 0.8, "min": 0.0, "max": 1.0, "step": 0.01},
+                    {"default": 0.95, "min": 0.0, "max": 1.0, "step": 0.01},
+                ),
+            },
+            "optional": {
+                "blackout_on_match": (
+                    "BOOLEAN",
+                    {"default": False},
                 ),
             },
         }
@@ -43,7 +49,7 @@ class SafetyChecker:
 
     CATEGORY = "image/processing"
 
-    def process_images(self, image, threshold):
+    def process_images(self, image, threshold, blackout_on_match=False):
         device = "cpu"
         predict = pipeline(
             "image-classification",
@@ -58,7 +64,7 @@ class SafetyChecker:
         )  # Convert to expected format
         score = next(item["score"] for item in result if item["label"] == "nsfw")
         output = image
-        if float(score) > threshold:
+        if float(score) > threshold and blackout_on_match:
             output = torch.zeros(
                 1, 512, 512, dtype=torch.float32
             )  # create black image tensor
